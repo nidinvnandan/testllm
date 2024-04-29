@@ -6,6 +6,7 @@ from langchain_core.messages import HumanMessage
 from langchain_google_genai import GoogleGenerativeAIEmbeddings
 from langchain.memory import ConversationBufferMemory
 import pandas as pd
+from langchain_community.docstore.base import Docstore
 from langchain import PromptTemplate
 from langchain.chains.question_answering import load_qa_chain
 from langchain.document_loaders import PyPDFLoader
@@ -15,7 +16,7 @@ from IPython.display import display
 from IPython.display import Markdown
 from langchain.chains import RetrievalQA
 from langchain import LLMChain
-from langchain.agents import AgentExecutor, Tool, ZeroShotAgent,react_docstore
+from langchain.agents import AgentExecutor, Tool, ZeroShotAgent
 from langchain.chains import RetrievalQA
 from langchain.chains.question_answering import load_qa_chain
 from langchain.docstore.document import Document
@@ -84,7 +85,7 @@ def answer_question(input_text):
         llm=model,
         prompt=prompt,
     )
-    agent = react_agent(llm_chain=llm_chain, tools=tools, verbose=True)
+    agent = react_docstore(llm_chain=llm_chain, tools=tools, verbose=True)
     agent_chain = AgentExecutor.from_agent_and_tools(
         agent=agent, tools=tools, verbose=True, memory=memory
     )
