@@ -73,18 +73,13 @@ def answer_question(input_text):
     {chat_history}
     Question: {input}
     {agent_scratchpad}"""
-    prompt = ZeroShotAgent.create_prompt(
-        tools,
-        prefix=prefix,
-        suffix=suffix,
-        input_variables=["input", "chat_history", "agent_scratchpad"],
-    )
+  
     memory = ConversationBufferMemory(
         memory_key="chat_history"
     )
     llm_chain = LLMChain(
         llm=model,
-        prompt=prompt,
+        prompt=QA_CHAIN_PROMPT,
     )
     agent = initialize_agent(llm=llm_chain, tools=tools, agent="react-docstore",verbose=True)
     agent_chain = AgentExecutor.from_agent_and_tools(
