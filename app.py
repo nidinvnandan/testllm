@@ -1,6 +1,7 @@
 import streamlit as st
 import google.generativeai as genai
 import os 
+from langchain.agents import initialize_agent
 from langchain_google_genai import ChatGoogleGenerativeAI
 from langchain_core.messages import HumanMessage
 from langchain_google_genai import GoogleGenerativeAIEmbeddings
@@ -85,7 +86,7 @@ def answer_question(input_text):
         llm=model,
         prompt=prompt,
     )
-    agent = react_docstore(llm_chain=llm_chain, tools=tools, verbose=True)
+    agent = initialize_agent(llm_chain=llm_chain, tools=tools, agent="react-docstore",verbose=True)
     agent_chain = AgentExecutor.from_agent_and_tools(
         agent=agent, tools=tools, verbose=True, memory=memory
     )
