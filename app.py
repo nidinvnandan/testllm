@@ -15,7 +15,7 @@ from IPython.display import display
 from IPython.display import Markdown
 from langchain.chains import RetrievalQA
 from langchain import LLMChain
-from langchain.agents import AgentExecutor, Tool, ZeroShotAgent,react-docstore
+from langchain.agents import AgentExecutor, Tool, ZeroShotAgent,react_docstore
 from langchain.chains import RetrievalQA
 from langchain.chains.question_answering import load_qa_chain
 from langchain.docstore.document import Document
