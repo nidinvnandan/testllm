@@ -15,7 +15,7 @@ from IPython.display import display
 from IPython.display import Markdown
 from langchain.chains import RetrievalQA
 from langchain import LLMChain
-from langchain.agents import AgentExecutor, Tool, ZeroShotAgent,REACT_DOCSTORE
+from langchain.agents import AgentExecutor, Tool, ZeroShotAgent,react_agent
 from langchain.chains import RetrievalQA
 from langchain.chains.question_answering import load_qa_chain
 from langchain.docstore.document import Document
@@ -84,7 +84,7 @@ def answer_question(input_text):
         llm=model,
         prompt=prompt,
     )
-    agent = REACT_DOCSTORE(llm_chain=llm_chain, tools=tools, verbose=True)
+    agent = react_agent(llm_chain=llm_chain, tools=tools, verbose=True)
     agent_chain = AgentExecutor.from_agent_and_tools(
         agent=agent, tools=tools, verbose=True, memory=memory
     )
