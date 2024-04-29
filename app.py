@@ -86,7 +86,7 @@ def answer_question(input_text):
         llm=model,
         prompt=prompt,
     )
-    agent = initialize_agent(llm_chain=llm_chain, tools=tools, agent="react-docstore",verbose=True)
+    agent = initialize_agent(llm=llm_chain, tools=tools, agent="react-docstore",verbose=True)
     agent_chain = AgentExecutor.from_agent_and_tools(
         agent=agent, tools=tools, verbose=True, memory=memory
     )
