@@ -64,10 +64,10 @@ def answer_question(input_text):
         Tool(
             name="HR Manager",
             func=qa_chain,
-            description="Useful for when you need to answer questions about the aspects asked. Input may be a partial or fully formed question."
+            description="Useful for when you need to answer questions about the aspects asked.Explain the anwser in detail. Input may be a partial or fully formed question."
         )
     ]
-    prefix = """Have a conversation with a employee in Zeta Corporation in detail, answering the following questions as best you can based on the context and memory available.
+    prefix = """Have a conversation with a employee in Zeta Corporation in detail, answering the following questions as best you can based on the context and memory available.Explain the anwser in detail
                 You have access to a single tool:"""
     suffix = """Begin!
     {chat_history}
