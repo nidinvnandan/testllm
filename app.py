@@ -67,21 +67,27 @@ def answer_question(input_text):
             description="Useful for when you need to answer questions about the aspects asked. Input may be a partial or fully formed question."
         )
     ]
-    prefix = """Have a conversation with a human, answering the following questions as best you can based on the context and memory available.
+    prefix = """Have a conversation with a employee in Zeta Corporation, answering the following questions as best you can based on the context and memory available.
                 You have access to a single tool:"""
     suffix = """Begin!
     {chat_history}
+    {context}
     Question: {input}
     {agent_scratchpad}"""
-  
+    prompt = ZeroShotAgent.create_prompt(
+        tools,
+        prefix=prefix,
+        suffix=suffix,
+        input_variables=["input", "chat_history", "context","agent_scratchpad"],
+    )
     memory = ConversationBufferMemory(
         memory_key="chat_history"
     )
     llm_chain = LLMChain(
         llm=model,
-        prompt=QA_CHAIN_PROMPT,
+        prompt=prompt,
     )
-    agent = initialize_agent(llm=llm_chain, tools=tools, agent="react-docstore",verbose=True)
+    agent = ZeroShotAgent(llm=llm_chain, tools=tools, agent="react-docstore",verbose=True)
     agent_chain = AgentExecutor.from_agent_and_tools(
         agent=agent, tools=tools, verbose=True, memory=memory
     )
