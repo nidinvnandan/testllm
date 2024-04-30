@@ -41,7 +41,7 @@ embeddings = GoogleGenerativeAIEmbeddings(model="models/embedding-001",google_ap
 def vector():
 
     vector_index =  Chroma.from_texts(texts, embeddings)
-    vector_index=vector_index.as_retriever(search_type='mmr')
+    vector_index=vector_index.as_retriever(search_kwargs={"k":5})
     return vector_index
 vector_index = vector()
 
@@ -49,7 +49,7 @@ model = ChatGoogleGenerativeAI(model="gemini-pro",google_api_key=GOOGLE_API_KEY,
                              temperature=0.7,convert_system_message_to_human=True)
 # Define the function
 def answer_question(input_text):
-    template = """be act like a HR officer and answer the questions to the employye in detail
+    template = """be act like a HR officer and answer the questions to the employye in detail 
     {context}
     Question: {question}
     Helpful Answer:"""
@@ -67,18 +67,17 @@ def answer_question(input_text):
             description="Useful for when you need to answer questions about the aspects asked. Input may be a partial or fully formed question."
         )
     ]
-    prefix = """Have a conversation with a employee in Zeta Corporation, answering the following questions as best you can based on the context and memory available.
+    prefix = """Have a conversation with a employee in Zeta Corporation in detail, answering the following questions as best you can based on the context and memory available.
                 You have access to a single tool:"""
     suffix = """Begin!
     {chat_history}
-    {context}
     Question: {input}
     {agent_scratchpad}"""
     prompt = ZeroShotAgent.create_prompt(
         tools,
         prefix=prefix,
         suffix=suffix,
-        input_variables=["input", "chat_history", "context","agent_scratchpad"],
+        input_variables=["input", "chat_history", "agent_scratchpad"],
     )
     memory = ConversationBufferMemory(
         memory_key="chat_history"
